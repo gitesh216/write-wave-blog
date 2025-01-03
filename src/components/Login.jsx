@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState:{errors} } = useForm();
-  const { error, setError } = useState("");
+  const { errorMessage, setErrorMessage } = useState("");
 
   const login = async (data) => {
     //setError("");
@@ -19,12 +19,14 @@ function Login() {
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
+          console.log(userData.name);
           dispatch(authLogin(userData));
           navigate("/");
         }
       }
-    } catch (error) {
-      setError(error.message);
+    }catch (error) {
+      setErrorMessage(error.message);
+      console.log("Login error :: ", error.message); 
     }
   };
   return (
@@ -49,7 +51,7 @@ function Login() {
             Sign Up
           </Link>
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {errorMessage && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className="mt-8">
           <div className="space-y-5">
             <Input

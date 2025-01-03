@@ -24,10 +24,10 @@ function AllPosts() {
                 {Array.isArray(posts) && posts.map((post) => (
                     <div key={post.$id} className='p-2 w-full sm:w-1/2 lg:w-1/4'>
                         <PostCard {...post} />
+                    {console.log(post)}
                         {/* <PostCard id={post.$id} title={post.title} content={post.content} /> */}
                         
                         {/* {posts.length === 0 && <p>No posts available.</p>} */}
-
                     </div>
                 ))}
             </div>

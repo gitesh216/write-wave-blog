@@ -30,6 +30,7 @@ function PostForm({ post }) {
       const dbPost = await appwriteService.updatePost(post.$id, {
         ...data,
         featuredImage: file ? file.$id : undefined,
+        authorName: userData?.name || "Anonymous",
       });
       if (dbPost) {
         navigate(`/post/${dbPost.$id}`);
@@ -42,6 +43,7 @@ function PostForm({ post }) {
         const dbPost = await appwriteService.createPost({
           ...data,
           userId: userData.$id,
+          authorName: userData?.name || "Anonymous",
         });
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);

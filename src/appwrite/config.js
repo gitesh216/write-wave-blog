@@ -14,7 +14,7 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}){
+    async createPost({title, slug, content, featuredImage, status, userId, authorName}){
         try{
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -25,7 +25,8 @@ export class Service{
                     content,
                     featuredImage,
                     status,
-                    userId
+                    userId,
+                    authorName
                 }
             )
         }
@@ -33,7 +34,7 @@ export class Service{
             console.error("Appwrite service :: CreatePost" ,error)
         }
     }
-    async updatePost(slug, {title, content, featuredImage, status}){
+    async updatePost(slug, {title, content, featuredImage, status, authorName}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -43,7 +44,8 @@ export class Service{
                     title,
                     content,
                     featuredImage,
-                    status
+                    status, 
+                    authorName
                 }
             )    
         } 
@@ -124,8 +126,8 @@ export class Service{
     }
 
     getFilePreview(fileId){
-        console.log("getFilePreview:: fileId: ",fileId)
-        console.log("Img url: ", this.bucket.getFilePreview(conf.appwriteBucketId,fileId))
+        //console.log("getFilePreview:: fileId: ",fileId)
+        // console.log("Img url: ", this.bucket.getFilePreview(conf.appwriteBucketId,fileId))
 
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,

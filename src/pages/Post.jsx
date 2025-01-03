@@ -73,6 +73,7 @@ export default function Post() {
                 <div className="browser-css">
                     {parse(post.content)}
                     </div>
+                    <p className="text-sm text-gray-500">By: {post.authorName}</p>
             </Container>
         </div>
     ) : <div>Post not found</div>;
