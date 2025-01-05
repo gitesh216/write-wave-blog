@@ -9,8 +9,12 @@ import { useForm } from "react-hook-form";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState:{errors} } = useForm();
-  const { errorMessage, setErrorMessage } = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [ errorMessage, setErrorMessage ] = useState("");
 
   const login = async (data) => {
     //setError("");
@@ -24,10 +28,20 @@ function Login() {
           navigate("/");
         }
       }
-    }catch (error) {
-      setErrorMessage(error.message);
-      console.log("Login error :: ", error.message); 
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Invalid credentials. Please try again.");
+      } else {
+        setErrorMessage(
+          "An unexpected error occurred. Please try again later."
+        );
+      }
+      console.error("Login error: ", error);
     }
+    // {
+    //   // setErrorMessage(error.message);
+    //   // console.log("Login error :: ", error.message);
+    // }
   };
   return (
     <div className="flex items-center justify-center w-full">
@@ -51,7 +65,9 @@ function Login() {
             Sign Up
           </Link>
         </p>
-        {errorMessage && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {/* {errorMessage && (
+          <p className="text-red-600 mt-8 text-center">{error}</p>
+        )} */}
         <form onSubmit={handleSubmit(login)} className="mt-8">
           <div className="space-y-5">
             <Input
@@ -95,6 +111,7 @@ function Login() {
                 {errors.password.message}
               </p>
             )}
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             <div className="flex justify-center">
               <Button
                 type="submit"
